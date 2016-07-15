@@ -10,15 +10,19 @@ class cpass_model extends CI_Model{
      }
 
      //read the department list from db
-     function get_data()
+     function get_data($iCode)
      {
-	  var_dump($this->input->get('search'));
 	  
-          $sql = 'select rut, nombre, apellido_p, apellido_m, ano, colegio from atleta '.($this->input->get('search') == NULL?'limit 10':'where id = '.$this->input->get('search'));
+          $sql = "select rut, nombre, apellido_p, apellido_m, colegio, prueba, fecha_desde, fecha_hasta, if ( sign(fecha_desde - now()) = sign(fecha_hasta - now()),'FALSO','OK') estado from control_acceso where pulsera = ".$iCode;
           $query = $this->db->query($sql);
           $result = $query->result();
           return $result;
      }
+
+     function evidencia_insert($data)
+     {
+         $this->db->insert('control_log', $data);
+     }   
 }
 
 ?>

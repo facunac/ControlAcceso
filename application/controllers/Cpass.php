@@ -19,6 +19,26 @@
           //load the department_view
           $this->load->view('cpass_view',$data);
      }
+
+     public function access_in($iCode)
+     {
+          $this->load->model('cpass_model');
+          if($this->input->post('Ok') != ''){
+              echo "OKOKOKOKOKOKOK";
+              $data = array (
+                'rut' => '1-9',
+                'prueba' => 'SALTO',
+                'colegio' => 'Maraino',
+                'pulsera' => 16001,
+                'fecha' => date("Y-m-d H:i:s"),
+                'accion' => 'in');
+              $this->cpass_model->evidencia_insert($data);
+	  }else {
+              $dataresult = $this->cpass_model->get_data($iCode);
+              $data['cpasslist'] = $dataresult;
+              $this->load->view('cpass_view',$data);
+          }
+     }
 }
 
 ?>
